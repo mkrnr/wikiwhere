@@ -8,7 +8,6 @@ import urllib, json
 import re
 import pprint
 import mwparserfromhell
-#import xml.etree.ElementTree as ET
 import urllib, json
 import lxml.etree as ET
 from langdetect import detect 
