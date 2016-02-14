@@ -6,13 +6,22 @@ Created on 22.01.2016
 import tldextract
 import re
 import io
-import tkFileDialog as filedialog
-if __name__ == '__main__':
+import argparse
 
-    file_path = filedialog.askopenfilename()
+
+if __name__ == '__main__':
+    
+    parser = argparse.ArgumentParser(description='Enter file containing wiki article name TAB number of sources TAB number of links TAB link TAB* and get the url split into subdomain, domain and suffix')
+    parser.add_argument('input', nargs=1, type=str,  help='name of the inputfile with .txt ending')
+    parser.add_argument('output', nargs=1, type=str, help='name of the outputfile with .txt ending')
+    args = parser.parse_args()
+    
+    file_path = args.input[0]
     tldfile = io.open (file_path,'rb') #open file)
-    out_name = filedialog.asksaveasfilename()
-    tldout = open (str(out_name)+".txt","wb") #create output as of now the .txt will always be added
+    
+    out_name = args.output[0]
+    tldout = open (out_name,"wb") #create output as of now the .txt will always be added
+    
     lc = sum(1 for line in io.open(file_path,'rb'))#count lines for loop
     i=0 #initial index
     while (i<lc):   
