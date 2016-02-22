@@ -32,7 +32,7 @@ db_reader = geoip2.database.Reader(databse_path)
 for line in reader:
     line = line.rstrip('\n')
     ip = socket.gethostbyname(urlsplit(line).netloc)
-#    print socket.gethostbyname(str(parsed_url.netloc))
+
     # Replace "city" with the method corresponding to the database
     # that you are using, e.g., "country".
     response = db_reader.country(ip)
