@@ -21,7 +21,7 @@ parser.add_argument('input',
 parser.add_argument("--output", dest="output", metavar='output path', type=str)
 
 args = parser.parse_args()
-file_path=args.input#"Data/enwiki-20131001-pages-articles-first-500-articles.xml"
+file_path=args.input
 dump={}
 
 def get_namespace(file_path):
