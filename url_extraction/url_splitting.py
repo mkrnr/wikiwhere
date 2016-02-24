@@ -6,6 +6,13 @@ Created on 22.01.2016
 import tldextract
 import re
 import argparse
+import json
+
+import logging
+
+# silence error messages of tldextract about permission rights for writing a caching file
+logging.basicConfig()
+logging.getLogger("tldextract").setLevel(logging.CRITICAL)
 
 # generate help text for arguments
 parser = argparse.ArgumentParser(description='Extracts domains from a file containing the URLs of Wikipedia articles.')
@@ -18,7 +25,6 @@ inputfile_path=args.input
 outputfile_path=args.output
 
 tldfile = open (inputfile_path,'rb')
-tldout = open (outputfile_path,"wb") 
 
 lc = sum(1 for line in open(inputfile_path,'rb'))#count lines for loop
 
@@ -28,12 +34,14 @@ while (i<lc):
     results = re.split(r'\t+', tldline) #split at tab using regular expression
     for l in range(len(results)):
         if (l < 3): #first three split parts article name & numbers
-            tldout.write(results[l])  
-            tldout.write("\n")
+            print results[l]
         else:
-            #print(tldextract.extract(results[l])) #for control
-            tldout.write(str(tldextract.extract(results[l]))) #cast to string ExtractResult object
-            tldout.write("\n")
+            print str(tldextract.extract(results[l]))
+            print 
     i+=1 #increase index
-tldout.close()
 tldfile.close()
+
+# write dictionary with key = Wikipedia article and value = URLs to JSON file
+#with open(outputfile_path, 'w') as f:
+#    json.dump(article_link_dictionary, f, indent=4, sort_keys=True)
+#    print "JSON file was stored successfully"
