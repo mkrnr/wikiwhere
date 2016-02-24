@@ -7,6 +7,7 @@ Created on Feb 21, 2016
 import geoip2.database
 import socket
 from urlparse import urlsplit
+import json 
 
 import argparse
 
@@ -23,20 +24,24 @@ outputfile_path=args.output
 databse_path=args.database
 
 reader = open (inputfile_path,'rb')
-writer = open (outputfile_path,"wb") 
 
 # This creates a Reader object. You should use the same object
 # across multiple requests as creation of it is expensive.
 db_reader = geoip2.database.Reader(databse_path)
 
-for line in reader:
-    line = line.rstrip('\n')
-    ip = socket.gethostbyname(urlsplit(line).netloc)
+url_location_dictionary = {}
 
-    # Replace "city" with the method corresponding to the database
-    # that you are using, e.g., "country".
+for line in reader:
+    url = line.rstrip('\n')
+    ip = socket.gethostbyname(urlsplit(url).netloc)
+
     response = db_reader.country(ip)
     
-    writer.write(line + "\t" + response.country.iso_code+"\n")
+    url_location_dictionary[url]=response.country.iso_code
     
 reader.close()
+
+# write results to a JSON file
+with open(outputfile_path, 'w') as f:
+    json.dump(url_location_dictionary, f, indent=4, sort_keys=True)
+    print "File was stored successfully"

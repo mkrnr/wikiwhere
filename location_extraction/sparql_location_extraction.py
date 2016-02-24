@@ -157,7 +157,6 @@ while True:
                 locations = []
                 locations.append(location_tuple)
                 url_location_dictionary[url] = locations
-
                 
         offset += limit
     else:
@@ -170,6 +169,6 @@ for url in url_location_dictionary:
     url_majority_location_dictionary[url]=majority_voting(url_location_dictionary[url])
 
 # write results to a JSON file
-with open(args.output, 'w') as f:
+with open(outputfile_path, 'w') as f:
     json.dump(url_majority_location_dictionary, f, indent=4, sort_keys=True)
     print "File was stored successfully"

@@ -21,12 +21,15 @@ parser.add_argument('input',
 parser.add_argument("--output", dest="output", metavar='output path', type=str)
 
 args = parser.parse_args()
-file_path=args.input
+
+inputfile_path=args.input
+outputfile_path=args.output
+
 dump={}
 
-def get_namespace(file_path):
-    input_file = open(file_path, 'r') 
-    for line in input_file:
+def get_namespace(inputfile_path):
+    inputfile_path = open(inputfile_path, 'r') 
+    for line in inputfile_path:
         # add closing tag or lxml would complain 
         mediawiki_tag = ET.fromstring(line + "</mediawiki>")
         # get xmlns definition
@@ -43,7 +46,7 @@ def get_language(text):
 
 
 # get the correct namespace from the xml file
-mediawiki_namespace = get_namespace(file_path) 
+mediawiki_namespace = get_namespace(inputfile_path) 
 
 page_tag = mediawiki_namespace + "page"
 title_tag = mediawiki_namespace + "title"
@@ -52,7 +55,7 @@ text_tag = mediawiki_namespace + "text"
 redirect_tag = mediawiki_namespace + "redirect"
 lang=""
 
-with open(file_path,'r') as xml_file:
+with open(inputfile_path,'r') as xml_file:
     context = ET.iterparse(xml_file, tag=page_tag)
 
     # iterate over the content of the page tags

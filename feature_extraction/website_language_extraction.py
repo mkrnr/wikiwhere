@@ -7,6 +7,8 @@ Created on Jan 29, 2016
 # https://github.com/Mimino666/langdetect
 from langdetect import detect 
 from bs4 import BeautifulSoup
+
+import json
 import urllib
 import argparse
 
@@ -20,19 +22,22 @@ args = parser.parse_args()
 inputfile_path=args.input
 outputfile_path=args.output
 
-output = open(outputfile_path, 'w')
+url_language_dictionary = {}
 
 for line in open(inputfile_path,'r'):
-    line=line.rstrip('\n')
+    url=line.rstrip('\n')
 
-    url = line
     html = urllib.urlopen(url).read()
     soup = BeautifulSoup(html)
     html_body = soup.body.get_text(" ")
     language=detect(html_body)
     print line+" --> "+language
 
-    # TODO write as json
-    output.write(line+"\t"+language+"\n")
 
-output.close()
+    url_language_dictionary[url] = language
+
+
+# write results to a JSON file
+with open(outputfile_path, 'w') as f:
+    json.dump(url_language_dictionary, f, indent=4, sort_keys=True)
+    print "File was stored successfully"
