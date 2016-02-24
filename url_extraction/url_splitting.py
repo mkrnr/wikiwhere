@@ -3,16 +3,10 @@ Created on 22.01.2016
 
 @author: Florian, Martin Koerner <info@mkoerner.de>
 '''
-import tldextract
-import re
+from urlparse import urlparse
 import argparse
 import json
 
-import logging
-
-# silence error messages of tldextract about permission rights for writing a caching file
-logging.basicConfig()
-logging.getLogger("tldextract").setLevel(logging.CRITICAL)
 
 # generate help text for arguments
 parser = argparse.ArgumentParser(description='Extracts domains from a file containing the URLs of Wikipedia articles.')
@@ -21,27 +15,27 @@ parser.add_argument('input',
 parser.add_argument("--output", dest="output", metavar='output path', type=str)
 args = parser.parse_args()
 
-inputfile_path=args.input
-outputfile_path=args.output
+inputfile_path = args.input
+outputfile_path = args.output
 
-tldfile = open (inputfile_path,'rb')
+article_domain_dictionary = {}
 
-lc = sum(1 for line in open(inputfile_path,'rb'))#count lines for loop
+# load json input
+with open(inputfile_path) as json_input:    
+    json_data = json.load(json_input)
 
-i=0 #initial index
-while (i<lc):   
-    tldline = tldfile.readline()
-    results = re.split(r'\t+', tldline) #split at tab using regular expression
-    for l in range(len(results)):
-        if (l < 3): #first three split parts article name & numbers
-            print results[l]
-        else:
-            print str(tldextract.extract(results[l]))
-            print 
-    i+=1 #increase index
-tldfile.close()
+article_url_dictionary = {}
+
+# iterate over Wikipedia articles
+for article in json_data:
+    urls = []
+    for url in json_data[article]:
+        parsed_url = urlparse(url)
+        stripped_url = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_url)
+        urls.append(stripped_url)
+    article_url_dictionary[article] = urls
 
 # write dictionary with key = Wikipedia article and value = URLs to JSON file
-#with open(outputfile_path, 'w') as f:
-#    json.dump(article_link_dictionary, f, indent=4, sort_keys=True)
-#    print "JSON file was stored successfully"
+with open(outputfile_path, 'w') as f:
+    json.dump(article_url_dictionary, f, indent=4, sort_keys=True)
+    print "JSON file was stored successfully"
