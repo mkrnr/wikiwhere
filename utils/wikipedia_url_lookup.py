@@ -29,5 +29,8 @@ class WikipediaURLLookup(object):
                     self.url_article_dictionary[url]=articles
     
     def lookup(self,url):
-        return self.url_article_dictionary[url]
+        if url in self.url_article_dictionary:
+            return self.url_article_dictionary[url]
+        else:
+            return None
     

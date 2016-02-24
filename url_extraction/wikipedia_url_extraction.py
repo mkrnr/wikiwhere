@@ -32,7 +32,7 @@ def get_namespace(inputfile_path):
             mediawiki_tag = ET.fromstring(line + "</mediawiki>")
             # get xmlns definition
             xmlns = mediawiki_tag.nsmap.get(None)
-            break;
+            break
     return "{" + xmlns + "}"
 
 def extract_urls(text,article_name):
