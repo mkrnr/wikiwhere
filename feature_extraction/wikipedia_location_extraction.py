@@ -44,18 +44,18 @@ def load_simple_json(filename):
         return json.load(f)
 
 
+
+        
+# get mapping from two-letter country code to dbpedia endpoint URL
+dbpedia_url = dbpedia_mapping.language_to_dbpedia_url(language) 
+sparql = SPARQLWrapper(dbpedia_url)
+sparql.setTimeout(100)
+
 article_language_dictionary={}        
 def query_location(article):
-        
-    # get mapping from two-letter country code to dbpedia endpoint URL
-    dbpedia_url = dbpedia_mapping.language_to_dbpedia_url(language) 
     
     article_url = '<http://'+ language + '.wikipedia.org/wiki/'+article + '>'
     location = None
-
-    sparql = SPARQLWrapper(dbpedia_url)
-    sparql.setTimeout(100)
-#    sparql.setTimeout(30000)
         
         
     # SPARQL query that 
