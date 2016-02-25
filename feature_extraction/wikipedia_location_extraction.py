@@ -10,6 +10,8 @@ from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 import json
 import argparse
 from utils import dbpedia_mapping, country_lookup, majority_voting
+import urllib2
+import socket
 
 
 # generate help text for arguments
@@ -52,6 +54,8 @@ def query_location(article):
     location = None
 
     sparql = SPARQLWrapper(dbpedia_url)
+    sparql.setTimeout(100)
+#    sparql.setTimeout(30000)
         
         
     # SPARQL query that 
@@ -138,6 +142,16 @@ def query_location(article):
         results = sparql.query().convert()
     except QueryBadFormed:
         print "SPARQL query bad formed: " + query_string_with_offset
+        return None
+    except urllib2.HTTPError:
+        print "HTTP Error 502: " + article
+        return None
+    except urllib2.URLError:
+        print "Network is unreachable while working on: " + article
+        return None
+    except socket.timeout:
+        print "Query timed out for: " + article
+        return None
         
         
     if len(results["results"]["bindings"]) > 0:
