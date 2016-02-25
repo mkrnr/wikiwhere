@@ -46,12 +46,15 @@ def load_simple_json(filename):
 
 
         
+# initialize sparql querier
 # get mapping from two-letter country code to dbpedia endpoint URL
 dbpedia_url = dbpedia_mapping.language_to_dbpedia_url(language) 
 sparql = SPARQLWrapper(dbpedia_url)
-sparql.setTimeout(100)
+sparql.setTimeout(1000)
+sparql.setReturnFormat(JSON)
 
 article_language_dictionary={}        
+
 def query_location(article):
     
     article_url = '<http://'+ language + '.wikipedia.org/wiki/'+article + '>'
@@ -137,7 +140,7 @@ def query_location(article):
     query_string_with_offset = query_string 
         
     sparql.setQuery(query_string_with_offset)
-    sparql.setReturnFormat(JSON)
+
     try:
         results = sparql.query().convert()
     except QueryBadFormed:

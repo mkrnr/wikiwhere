@@ -10,6 +10,8 @@ from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 import json 
 import argparse
 from utils import dbpedia_mapping, majority_voting
+import urllib2
+import socket
 
 # generate help text for arguments
 parser = argparse.ArgumentParser(description='Extracts Websites with locations from dbpedia.')
@@ -35,6 +37,7 @@ sparql = SPARQLWrapper(dbpedia_url)
 # sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
 # sparql = SPARQLWrapper("https://query.wikidata.org/bigdata/namespace/wdq/sparql")
 
+sparql.setTimeout(1000)
 
 
 # SPARQL query that 
@@ -120,6 +123,12 @@ while True:
         results = sparql.query().convert()
     except QueryBadFormed:
         print "SPARQL query bad formed: " + query_string_with_offset
+    except urllib2.HTTPError:
+        print "HTTP Error 502"
+    except urllib2.URLError:
+        print "Network is unreachable"
+    except socket.timeout:
+        print "Query timed out"
     
     
     if len(results["results"]["bindings"]) > 0:
