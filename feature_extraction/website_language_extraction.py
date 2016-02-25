@@ -40,24 +40,16 @@ for article in json_data:
 
         try:
             html = urllib.urlopen(url).read()
-            soup = BeautifulSoup(html)
             
-            #TODO fix
-            betterHTML = html.decode(errors='ignore')
-            html_out =  html2text.html2text(betterHTML)
-            html = markdown(html_out)
-            text = ''.join(BeautifulSoup(html).findAll(text=True))
+            decoded_html = html.decode(errors='ignore')
+            markup_text =  html2text.html2text(decoded_html)
+            html_from_markup = markdown(markup_text)
+            text = ''.join(BeautifulSoup(html_from_markup).findAll(text=True))
 
-            
-            #html_body = re.sub("\(.*\)","",html_body)
-            #print html_body
-            print "before"
             language=detect(text)
-            print "after"
-
-            print url+" --> "+language
 
             url_language_dictionary[url] = language
+
         except AttributeError:
             print "language not detected: " + url
         except langdetect.lang_detect_exception.LangDetectException:
