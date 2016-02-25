@@ -11,11 +11,15 @@ from bs4 import BeautifulSoup
 import json
 import urllib
 import argparse
+import langdetect
+import html2text
+from markdown import markdown
+
 
 # generate help text for arguments
 parser = argparse.ArgumentParser(description='Extracts languages from the content of URLs given in a JSON file that contains Wikipedia articles and their referenced URLs')
 parser.add_argument('input',
-                   help='a file path to the JSON input file', required=True)
+                   help='a file path to the JSON input file')
 parser.add_argument("--output", dest="output", metavar='output path', type=str, required=True)
 args = parser.parse_args()
 
@@ -24,17 +28,46 @@ outputfile_path=args.output
 
 url_language_dictionary = {}
 
-for line in open(inputfile_path,'r'):
-    url=line.rstrip('\n')
 
-    html = urllib.urlopen(url).read()
-    soup = BeautifulSoup(html)
-    html_body = soup.body.get_text(" ")
-    language=detect(html_body)
-    print line+" --> "+language
+# load json input
+with open(inputfile_path) as json_input:    
+    json_data = json.load(json_input)
 
 
-    url_language_dictionary[url] = language
+url_count = 0
+for article in json_data:
+    for url in json_data[article]:
+
+        try:
+            html = urllib.urlopen(url).read()
+            soup = BeautifulSoup(html)
+            
+            #TODO fix
+            betterHTML = html.decode(errors='ignore')
+            html_out =  html2text.html2text(betterHTML)
+            html = markdown(html_out)
+            text = ''.join(BeautifulSoup(html).findAll(text=True))
+
+            
+            #html_body = re.sub("\(.*\)","",html_body)
+            #print html_body
+            print "before"
+            language=detect(text)
+            print "after"
+
+            print url+" --> "+language
+
+            url_language_dictionary[url] = language
+        except AttributeError:
+            print "language not detected: " + url
+        except langdetect.lang_detect_exception.LangDetectException:
+            print "no features in text: " + url
+        except IOError:
+            print "URL not found: " + url
+
+            
+    if url_count > 1:
+        break
 
 
 # write results to a JSON file
