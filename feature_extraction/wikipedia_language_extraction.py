@@ -16,7 +16,7 @@ from langdetect.lang_detect_exception import LangDetectException
 
 
 # generate help text for arguments
-parser = argparse.ArgumentParser(description='Extracts languages from a list of wikipedia articles given in the xml article_language_dictionary format.')
+parser = argparse.ArgumentParser(description='Extracts languages from a list of wikipedia articles given in the xml dump format.')
 parser.add_argument('input',
                    help='a file path to bz2 compressed XML dump input')
 parser.add_argument("--output", dest="output", metavar='output path', type=str, required=True)
