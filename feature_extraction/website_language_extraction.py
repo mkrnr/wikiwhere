@@ -78,6 +78,9 @@ for article in json_data:
         except IOError:
             print "URL not found: " + url
             continue
+        except ValueError:
+            print "ValueError for: " + url
+            continue
         except TimeoutException:
             print "timeout for: " + url
             continue
