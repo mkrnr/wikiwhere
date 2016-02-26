@@ -18,6 +18,8 @@ def get_country(lat, lon):
     j = json.loads(v)
     #print j
     if j['status']!=u'ZERO_RESULTS':
+        if len(j['results']) < 1:
+            return None
         components = j['results'][0]['address_components']
         country = None
         # town = None
