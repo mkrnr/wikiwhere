@@ -49,6 +49,8 @@ with open(inputfile_path) as json_input:
 url_count = 0
 for article in json_data:
     for url in json_data[article]:
+        url_count += 1
+        print url_count
 
         if url in url_language_dictionary:
             continue
@@ -67,8 +69,6 @@ for article in json_data:
 
             url_language_dictionary[url] = language
 
-            url_count += 1
-            print url_count
         except AttributeError:
             print "language not detected: " + url
             continue
