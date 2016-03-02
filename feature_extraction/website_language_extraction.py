@@ -16,6 +16,7 @@ import html2text
 from markdown import markdown
 import signal
 import HTMLParser
+from httplib import InvalidURL
 
 # generate help text for arguments
 parser = argparse.ArgumentParser(description='Extracts languages from the content of URLs given in a JSON file that contains Wikipedia articles and their referenced URLs')
@@ -87,6 +88,9 @@ for article in json_data:
             continue
         except HTMLParser.HTMLParseError:
             print "HTMLParseError for: " + url
+            continue
+        except InvalidURL:
+            print "InvalidURL for: " + url
             continue
         except TimeoutException:
             print "timeout for: " + url
