@@ -38,6 +38,8 @@ url_count = 0
 for article in json_data:
     for url in json_data[article]:
         url_count += 1
+        if url in url_location_dictionary:
+            continue
         try:
             ip = socket.gethostbyname(urlsplit(url).netloc)
 
