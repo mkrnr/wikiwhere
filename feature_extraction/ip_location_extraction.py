@@ -51,9 +51,6 @@ for article in json_data:
             print "URL not found: " + url
         except geoip2.errors.AddressNotFoundError:
             print "IP location not found: " + ip
-            
-    if url_count > 100:
-        break
 
 # write results to a JSON file
 with open(outputfile_path, 'w') as f:
