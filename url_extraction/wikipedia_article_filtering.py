@@ -31,7 +31,8 @@ with open(inputfile_path) as json_input:
 
 # get list of wikipedia article names
 for article in json_data:
-    wikipedia_articles.append(article)
+    if len(json_data[article])>0:
+        wikipedia_articles.append(article)
 
 # shuffle the wikipedia articles
 shuffle(wikipedia_articles)
