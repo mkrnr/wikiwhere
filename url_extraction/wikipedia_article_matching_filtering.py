@@ -46,7 +46,6 @@ for article in wikipedia_data:
         stripped_url = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_url)
         if stripped_url in matched_urls:
             filtered_urls.append(url)
-            print url
     if len(filtered_urls)>0:
         filtered_article_url_dictionary[article] = filtered_urls
         
