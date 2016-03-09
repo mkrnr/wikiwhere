@@ -18,6 +18,8 @@ parser.add_argument('--wikipedia-language', dest='wikipedia_language'
                    , help='JSON file containing Wikipedia article names as keys and language iso codes as values', type=str)
 parser.add_argument('--wikipedia-location', dest='wikipedia_location'
                    , help='JSON file containing URLs as keys and tuples with (lat,long) as values', type=str)
+parser.add_argument('--sparql-location', dest='sparql_location'
+                   , help='JSON file containing URLs as keys and tuples with (lat,long) as values', type=str)
 parser.add_argument('--article-to-url', dest='article_to_urls', metavar='JSON file containing Wikipedia articles as key and references URLs as values', type=str, required=True)
 parser.add_argument('--output', dest='output', metavar='output path for the merged CSV file', type=str, required=True)
 
@@ -30,8 +32,6 @@ def add_feature(url, feature_name, feature_value):
     if url not in url_features_dictionary:
         url_features_dictionary[url] = {}
     url_features_dictionary[url][feature_name] = feature_value
-
-
 
 
 with open(args.article_to_urls) as json_input:    
@@ -69,17 +69,14 @@ if args.wikipedia_language is not None:
                 add_feature(url, "wikipedia-language", json_data[article])
         
     
-if args.wikipedia_location is not None:
-    print "Merging wikipedia-location"
-    with open(args.wikipedia_location) as json_input:    
+if args.sparql_location is not None:
+    print "Merging sparql-location"
+    with open(args.sparql_location) as json_input:    
         json_data = json.load(json_input)
     
-    for article in json_data:
-        print article
-        urls = article_urls_dictionary[article]
-        print urls
-        for url in urls:
-            add_feature(url, "wikipedia-language", json_data[article])
+    for url in json_data:
+        country = country_lookup.get_country(json_data[url][0], json_data[url][1])
+        add_feature(url, "sparql-location", country)
 
     
 #for url in url_features_dictionary:
