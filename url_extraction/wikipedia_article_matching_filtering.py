@@ -43,10 +43,16 @@ filtered_article_url_dictionary = {}
 for article in wikipedia_data:
     filtered_urls = []
     for url in wikipedia_data[article]:
-        parsed_url = urlparse(url)
-        stripped_url = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_url)
-        if stripped_url in matched_urls:
-            filtered_urls.append(url)
+        try:
+            parsed_url = urlparse(url)
+            stripped_url = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_url)
+            if stripped_url in matched_urls:
+                filtered_urls.append(url)
+        except ValueError:
+            print "ValueError while parsing URL for: " + url
+            
+        
+
     if len(filtered_urls)>0:
         filtered_article_url_dictionary[article] = filtered_urls
         
