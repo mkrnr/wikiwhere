@@ -6,9 +6,8 @@ Created on Mar 9, 2016
 
 import json
 
+from urlparse import urlparse
 import argparse
-
-from random import shuffle
 
 # generate help text for arguments
 parser = argparse.ArgumentParser(description='Extracts domains from a file containing the URLs of Wikipedia articles.')
@@ -43,7 +42,9 @@ filtered_article_url_dictionary = {}
 for article in wikipedia_data:
     filtered_urls = []
     for url in wikipedia_data[article]:
-        if url in matched_urls:
+        parsed_url = urlparse(url)
+        stripped_url = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_url)
+        if stripped_url in matched_urls:
             filtered_urls.append(url)
             print url
     if len(filtered_urls)>0:
