@@ -28,6 +28,7 @@ args = parser.parse_args()
 inputfile_path=args.input
 outputfile_path=args.output
 
+print "running website_language_extraction"
 
 # timeout handling from: http://stackoverflow.com/a/25027182/2174538
 class TimeoutException(Exception):   # Custom exception class

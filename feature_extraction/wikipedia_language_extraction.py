@@ -26,6 +26,8 @@ args = parser.parse_args()
 inputfile_path = args.input
 outputfile_path = args.output
 
+print "running wikipedia_language_extraction"
+
 article_language_dictionary={}
 
 def get_namespace(inputfile_path):

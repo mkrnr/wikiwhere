@@ -28,6 +28,8 @@ outputfile_path=args.output
 wfbdatabse_path=args.world_fact_book_database
 ianadatabse_path=args.IANA_database
 
+print "running tld_location_extraction"
+
 # load json input
 with open(inputfile_path) as json_input:    
     json_data = json.load(json_input)

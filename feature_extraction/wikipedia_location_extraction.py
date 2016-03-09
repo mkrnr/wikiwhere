@@ -29,6 +29,8 @@ outputfile_path=args.output
 language = args.language
 threshold = args.threshold
 
+print "running wikipedia_location_extraction"
+
 # Convert coordinates to decimals
 def dms2dd(degrees, minutes, seconds, direction):
     dd = float(degrees) + float(minutes)/60 + float(seconds)/(60*60);

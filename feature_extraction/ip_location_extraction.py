@@ -23,8 +23,9 @@ inputfile_path=args.input
 outputfile_path=args.output
 databse_path=args.database
 
-# load json input
+print "running ip_location_extraction"
 
+# load json input
 with open(inputfile_path) as json_input:    
     json_data = json.load(json_input)
 

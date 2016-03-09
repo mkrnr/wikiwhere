@@ -24,6 +24,7 @@ article_link_dictionary = {}
 inputfile_path = args.input
 outputfile_path = args.output
 
+print "running wikipedia_url_extraction"
 
 def get_namespace(inputfile_path):
     with BZ2File(inputfile_path) as xml_file:

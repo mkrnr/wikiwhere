@@ -18,7 +18,10 @@ args = parser.parse_args()
 inputfile_path = args.input
 outputfile_path = args.output
 
+print "running url_splitting"
+
 article_domain_dictionary = {}
+
 
 # load json input
 with open(inputfile_path) as json_input:    

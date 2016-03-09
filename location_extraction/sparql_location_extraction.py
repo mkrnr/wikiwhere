@@ -26,7 +26,7 @@ outputfile_path=args.output
 sparql_language=args.language
 absolute_threshold=args.threshold
 
-    
+print "running sparql_location_extraction" 
 
 # get mapping from two-letter country code to dbpedia endpoint URL
 dbpedia_url = dbpedia_mapping.language_to_dbpedia_url(sparql_language) 

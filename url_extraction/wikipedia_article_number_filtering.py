@@ -24,6 +24,8 @@ number_of_articles = args.number
 
 wikipedia_articles = []
 
+print "running wikipedia_article_number_filtering"
+
 # load json input
 with open(inputfile_path) as json_input:    
     json_data = json.load(json_input)

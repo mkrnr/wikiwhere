@@ -21,6 +21,7 @@ inputfile_path = args.input
 matchesfile_path = args.matches
 outputfile_path = args.output
 
+print "running wikipedia_article_matching_filtering"
 
 # load json input
 with open(inputfile_path) as json_input:    

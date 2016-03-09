@@ -25,6 +25,8 @@ parser.add_argument('--output', dest='output', metavar='output path for the merg
 
 args = parser.parse_args()
 
+print "running feature_merging"
+
 url_features_dictionary={}
 
 
