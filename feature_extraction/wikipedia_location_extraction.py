@@ -190,12 +190,12 @@ for article in lang_dump:
     article_with_underscores = article.replace(' ', '_')
     location=query_location(article_with_underscores)
     if location is not None:
-        print article + " --> " +location
+        # print article + " --> " +location
         article_language_dictionary[article]=location
     
     article_count += 1
     
-    print article_count
+    # print article_count
 
 
 with open(outputfile_path, 'w') as f:
