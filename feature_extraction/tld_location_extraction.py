@@ -19,14 +19,14 @@ Country = collections.namedtuple('Country', 'name, gec, iso2c, iso3c, isonum, st
 parser = argparse.ArgumentParser(description='Extracts locations (country ISO code) from the top-level domains of URLs given a JSON file containing Wikipedia articles and URLs referenced by them')
 parser.add_argument('input', help='a file path to the input JSON file')
 parser.add_argument("--output", dest="output", metavar='output path', type=str, required=True)
-parser.add_argument("--world_fact_book_database", dest="database", metavar='path to world fact book database', type=str, required=True)
-parser.add_argument("--IANA_database", dest="database", metavar='path to IANA database', type=str, required=True)
+parser.add_argument("--world_fact_book_database", dest="world_fact_book_database", metavar='path to world fact book database', type=str, required=True)
+parser.add_argument("--IANA_database", dest="iana_database", metavar='path to IANA database', type=str, required=True)
 args = parser.parse_args()
 
 inputfile_path=args.input
 outputfile_path=args.output
 wfbdatabse_path=args.world_fact_book_database
-ianadatabse_path=args.IANA_database
+ianadatabse_path=args.iana_database
 
 print "running tld_location_extraction"
 
@@ -54,12 +54,12 @@ for article in json_data:
         
         #print tld
         try:
-            if (iana[tld] != 'country-code'):
-                tld_location_dictionary[url]= "none"
-            else:
+            if (iana[tld] == 'country-code'):
                 for w in wfb:
                     if w.tld == tld:
                         tld_location_dictionary[url]= w.iso2c
+#            else:
+#                tld_location_dictionary[url]= "None"
         except KeyError:
             print "no entry found for: "+ tld
     if url_count > 100:
