@@ -10,6 +10,7 @@ from bz2 import BZ2File
 import json
 
 import argparse
+from mwparserfromhell.parser import ParserError
 
 # generate help text for arguments
 parser = argparse.ArgumentParser(description='Extracts URLS from a list of Wikipedia articles given in the XML dump format and saves it as a JSON file.')
@@ -78,8 +79,12 @@ with BZ2File(inputfile_path) as xml_file:
                     for child_of_revision in child_of_page:
                         if child_of_revision.tag == text_tag: 
     
-                            # extract external links from the text of the child
-                            extract_urls(child_of_revision.text,article_name)
+                            try:
+                                # extract external links from the text of the child
+                                extract_urls(child_of_revision.text,article_name)
+                            except ParserError:
+                                print "ParserError for url "+ child_of_revision.text+ " in article "+ article_name
+                            
                                         
 # write dictionary with key = Wikipedia article and value = URLs to JSON file
 with open(outputfile_path, 'w') as f:
