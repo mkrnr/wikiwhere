@@ -83,7 +83,7 @@ with BZ2File(inputfile_path) as xml_file:
                                 # extract external links from the text of the child
                                 extract_urls(child_of_revision.text,article_name)
                             except ParserError:
-                                print "ParserError for url "+ child_of_revision.text+ " in article "+ article_name
+                                print "ParserError for url "+ str(child_of_revision.text)+ " in article "+ str(article_name)
                             
                                         
 # write dictionary with key = Wikipedia article and value = URLs to JSON file
