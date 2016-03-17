@@ -114,6 +114,19 @@ with BZ2File(inputfile_path) as xml_file:
         if namespace is "0" and redirect is False and article_name is not None and language is not None: 
             article_language_dictionary[article_name] = language
             #print article_language_dictionary
+        
+        # the following code fixes the memory problems with iterparse, see:
+        # http://www.ibm.com/developerworks/xml/library/x-hiperfparse/
+
+        # It's safe to call clear() here because no descendants will be
+        # accessed
+        elem.clear()
+        # Also eliminate now-empty references from the root node to elem
+        for ancestor in elem.xpath('ancestor-or-self::*'):
+            while ancestor.getprevious() is not None:
+                del ancestor.getparent()[0]                         
+
+    del context
 
 print "number of articles: " + str(article_count)
 print "number of undetected articles: " + str(article_not_detected_count)
