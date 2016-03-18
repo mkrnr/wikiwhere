@@ -19,8 +19,6 @@ parser.add_argument('input',
 parser.add_argument("--output", dest="output", metavar='output path for the JSON file', type=str, required=True)
 args = parser.parse_args()
 
-article_link_dictionary = {}
-
 
 inputfile_path = args.input
 outputfile_path = args.output
