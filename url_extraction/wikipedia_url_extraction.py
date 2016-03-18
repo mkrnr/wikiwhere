@@ -27,6 +27,9 @@ outputfile_path = args.output
 
 print "running wikipedia_url_extraction"
 
+
+outputfile_writer = open(outputfile_path, 'w') 
+
 def get_namespace(inputfile_path):
     with BZ2File(inputfile_path) as xml_file:
         for line in xml_file:
@@ -45,7 +48,11 @@ def extract_urls(text,article_name):
         if element.startswith("http") and ( element.startswith("http://") or element.startswith("https://") ):
             article_URLs.append(element.encode('utf-8'))
 
-    article_link_dictionary[article_name] = article_URLs
+    if len(article_URLs)>0:
+        outputfile_writer.write(article_name)
+        for article_URL in article_URLs:
+            outputfile_writer.write("\t"+article_URL)
+        outputfile_writer.write('\n')
     
 # get the correct namespace from the xml file
 mediawiki_namespace = get_namespace(inputfile_path) 
@@ -98,7 +105,4 @@ with BZ2File(inputfile_path) as xml_file:
 
     del context
 
-# write dictionary with key = Wikipedia article and value = URLs to JSON file
-with open(outputfile_path, 'w') as f:
-    json.dump(article_link_dictionary, f, indent=4, sort_keys=True)
-    print "JSON file was stored successfully"
+outputfile_writer.close()
