@@ -8,6 +8,7 @@ import json
 
 from urlparse import urlparse
 import argparse
+import re
 
 # generate help text for arguments
 parser = argparse.ArgumentParser(description='Extracts domains from a file containing the URLs of Wikipedia articles.')
@@ -24,15 +25,13 @@ outputfile_path = args.output
 print "running wikipedia_article_matching_filtering"
 
 # load json input
-with open(inputfile_path) as json_input:    
-    wikipedia_data = json.load(json_input)
+wikipedia_reader = open(inputfile_path, 'r')
 
 # load json input
 with open(matchesfile_path) as json_matches:    
     matches_data = json.load(json_matches)
 
 # get list of matched urls
-
 matched_urls = []
 for url in matches_data:
     matched_urls.append(url)
@@ -40,25 +39,25 @@ for url in matches_data:
 filtered_article_url_dictionary = {}
 
 # iterate over Wikipedia articles and selected the filtered articles
-for article in wikipedia_data:
-    filtered_urls = []
-    for url in wikipedia_data[article]:
-        try:
-            parsed_url = urlparse(url)
-            stripped_url = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_url)
-            if stripped_url in matched_urls:
-                filtered_urls.append(url)
-        except ValueError:
-            print "ValueError while parsing URL for: " + url
-            
-        
-
-    if len(filtered_urls)>0:
-        filtered_article_url_dictionary[article] = filtered_urls
+with open(inputfile_path, "r") as ins:
+    for line in ins:
+        line_split = re.split(r'\t+', line)
+        filtered_urls = []
+        iter_line = iter(line_split)
+        article_name = next(iter_line)
+        for url in iter_line:
+            try:
+                parsed_url = urlparse(url)
+                stripped_url = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_url)
+                if stripped_url in matched_urls:
+                    filtered_urls.append(url)
+            except ValueError:
+                print "ValueError while parsing URL for: " + url
+                
+        if len(filtered_urls)>0:
+            filtered_article_url_dictionary[article_name] = filtered_urls
         
 # write dictionary with key = Wikipedia article and value = URLs to JSON file
 with open(outputfile_path, 'w') as f:
     json.dump(filtered_article_url_dictionary, f, indent=4, sort_keys=True)
     print "JSON file was stored successfully"
-
-
