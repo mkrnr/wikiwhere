@@ -13,7 +13,7 @@ import re
 # generate help text for arguments
 parser = argparse.ArgumentParser(description='Extracts domains from a file containing the URLs of Wikipedia articles.')
 parser.add_argument('input',
-                   help='JSON file containing wikipedia articles and their links')
+                   help='CSV file containing wikipedia articles and their links')
 parser.add_argument("--matches", dest="matches", help='JSON file containing matchings if URLs and their location extracted from dbpedia', type=str, required=True)
 parser.add_argument("--output", dest="output", help='output path', type=str, required=True)
 args = parser.parse_args()
@@ -32,9 +32,9 @@ with open(matchesfile_path) as json_matches:
     matches_data = json.load(json_matches)
 
 # get list of matched urls
-matched_urls = []
+matched_urls = set()
 for url in matches_data:
-    matched_urls.append(url)
+    matched_urls.add(url)
     
 filtered_article_url_dictionary = {}
 
