@@ -38,6 +38,7 @@ for url in matches_data:
     
 filtered_article_url_dictionary = {}
 
+url_error_count = 0
 # iterate over Wikipedia articles and selected the filtered articles
 with open(inputfile_path, "r") as ins:
     for line in ins:
@@ -52,11 +53,14 @@ with open(inputfile_path, "r") as ins:
                 if stripped_url in matched_urls:
                     filtered_urls.append(url)
             except ValueError:
+                url_error_count += 1
                 print "ValueError while parsing URL for: " + url
                 
         if len(filtered_urls)>0:
             filtered_article_url_dictionary[article_name] = filtered_urls
-        
+
+print "URLs with error: " + str(url_error_count)
+
 # write dictionary with key = Wikipedia article and value = URLs to JSON file
 with open(outputfile_path, 'w') as f:
     json.dump(filtered_article_url_dictionary, f, indent=4, sort_keys=True)
