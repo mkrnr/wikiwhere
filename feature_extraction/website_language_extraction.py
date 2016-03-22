@@ -53,7 +53,7 @@ url_count = 0
 for article in json_data:
     for url in json_data[article]:
         url_count += 1
-        print url_count
+        # print url_count
 
         if url in url_language_dictionary:
             continue
