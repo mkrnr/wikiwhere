@@ -62,8 +62,6 @@ for article in json_data:
 #                tld_location_dictionary[url]= "None"
         except KeyError:
             print "no entry found for: "+ tld
-    if url_count > 100:
-        break
 # write results to a JSON file
 with open(outputfile_path, 'w') as f:
     json.dump(tld_location_dictionary, f, indent=4, sort_keys=True)
