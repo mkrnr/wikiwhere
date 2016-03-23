@@ -104,3 +104,5 @@ with BZ2File(inputfile_path) as xml_file:
     del context
 
 outputfile_writer.close()
+
+print "CSV file was stored successfully"

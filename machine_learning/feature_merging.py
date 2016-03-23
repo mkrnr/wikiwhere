@@ -85,10 +85,8 @@ if args.wikipedia_language is not None:
         json_data = json.load(json_input)
     
     for article in json_data:
-        urls = article_urls_dictionary[article]
-        if urls is None:
-            print "article not found: " +  article
-        else:
+        if article in article_urls_dictionary:
+            urls = article_urls_dictionary[article]
             for url in urls:
                 add_feature(url, "wikipedia-language", json_data[article])
         
@@ -115,7 +113,7 @@ if args.sparql_location is not None:
     for url in json_data:
         if url in url_features_dictionary:
             country = country_lookup.get_country(json_data[url][0], json_data[url][1])
-            add_feature(url, "sparql-location", country)
+            add_feature(url, "sparql-location", str(country))
 
 
 # generate header string
@@ -148,6 +146,4 @@ for url in url_features_dictionary:
 
 output_file.close() # you can omit in most cases as the destructor will call it
 
-#country = country_lookup.get_country("52.509669","13.376294")
-#country_iso=pycountry.countries.get(name=country)
-#print country.lower()
+print "CSV file was stored successfully"
