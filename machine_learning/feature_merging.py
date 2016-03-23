@@ -24,11 +24,13 @@ parser.add_argument('--sparql-location', dest='sparql_location'
                    , help='JSON file containing URLs as keys and tuples with (lat,long) as values', type=str)
 parser.add_argument('--article-to-url', dest='article_to_urls', metavar='JSON file containing Wikipedia articles as key and references URLs as values', type=str, required=True)
 parser.add_argument('--output', dest='output', metavar='output path for the merged CSV file', type=str, required=True)
+parser.add_argument('--empty-marker', dest='empty_marker', type=str, required=True)
+parser.add_argument('--csv-delimiter', dest='csv_delimiter', type=str, required=True)
 
 args = parser.parse_args()
 
-csv_delimiter = ","
-empty_feature_marker = "NULL"
+csv_delimiter = args.csv_delimiter
+empty_feature_marker = args.empty_marker
 
 print "running feature_merging"
 
@@ -113,7 +115,10 @@ if args.sparql_location is not None:
     for url in json_data:
         if url in url_features_dictionary:
             country = country_lookup.get_country(json_data[url][0], json_data[url][1])
-            add_feature(url, "sparql-location", str(country))
+            if (country is None):
+                add_feature(url, "sparql-location", empty_feature_marker)
+            else:
+                add_feature(url, "sparql-location", country)
 
 
 # generate header string
