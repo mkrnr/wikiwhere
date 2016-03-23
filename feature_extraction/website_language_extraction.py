@@ -87,6 +87,9 @@ for article in json_data:
         except TypeError:
             print "TypeError for: " + url
             continue
+        except RuntimeError:
+            print "RuntimeError for: " + url
+            continue
         except HTMLParser.HTMLParseError:
             print "HTMLParseError for: " + url
             continue
