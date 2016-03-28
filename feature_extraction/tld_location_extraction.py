@@ -62,8 +62,8 @@ for article in json_data:
                 for w in wfb:
                     if w.tld == tld:
                         tld_location_dictionary[url]= w.iso2c
-#            else:
-#                tld_location_dictionary[url]= "None"
+            else:
+                tld_location_dictionary[url]= tld.replace(".",'').upper() 
         except KeyError:
             print "no entry found for: "+ str(tld)
 # write results to a JSON file
