@@ -6,7 +6,7 @@ Created on Feb 24, 2016
 
 import argparse
 import json
-from utils import country_lookup
+from utils import country_lookup, countries
 from urlparse import urlparse
 
 # generate help text for arguments
@@ -25,6 +25,7 @@ parser.add_argument('--sparql-location', dest='sparql_location'
                    , help='JSON file containing URLs as keys and tuples with (lat,long) as values', type=str)
 parser.add_argument('--article-to-url', dest='article_to_urls', metavar='JSON file containing Wikipedia articles as key and references URLs as values', type=str, required=True)
 parser.add_argument('--output', dest='output', metavar='output path for the merged CSV file', type=str, required=True)
+parser.add_argument('--world-borders', dest='world_borders', type=str, required=True)
 parser.add_argument('--empty-marker', dest='empty_marker', type=str, required=True)
 parser.add_argument('--csv-delimiter', dest='csv_delimiter', type=str, required=True)
 
@@ -114,25 +115,24 @@ if args.sparql_location is not None:
     with open(args.sparql_location) as json_input:    
         json_data = json.load(json_input)
     
+    country_checker = countries.CountryChecker(args.world_borders)
     for url in url_features_dictionary:
         parsed_url = urlparse(str(url))
         stripped_url = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_url)
-        print stripped_url
         if stripped_url in json_data:
-            country = country_lookup.get_country(json_data[stripped_url][0], json_data[stripped_url][1])
+            #country = country_lookup.get_country(json_data[stripped_url][0], json_data[stripped_url][1])
+            country = country_checker.getCountry(countries.Point(json_data[stripped_url][0], json_data[stripped_url][1]))
             if (country is None):
                 count_not_found += 1
-                print "None via maps request: "+ url
                 add_feature(url, "sparql-location", empty_feature_marker)
             else:
                 count_found += 1
-                add_feature(url, "sparql-location", country)
+                add_feature(url, "sparql-location", country.iso)
         else:
-            count_not_found += 1
-            print "url not in dict: "+url
-            exit(0)
-        print "not found: "+str(count_not_found)
-        print "found: "+str(count_found)
+            print "url not in dictionary: " + stripped_url
+
+print "countries not found: "+ str(count_not_found)
+print "countries found: "+ str(count_found)
 
 
 
