@@ -7,6 +7,7 @@ Created on Jan 11, 2016
 from SPARQLWrapper import SPARQLWrapper, JSON
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 
+from urlparse import urlparse
 import json 
 import argparse
 from utils import dbpedia_mapping, majority_voting
@@ -135,13 +136,16 @@ while True:
         for result in results["results"]["bindings"]:
             url=result["url"]["value"]
 
+            parsed_url = urlparse(url.encode("utf8"))
+            stripped_url = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_url)
+
             location_tuple=(float(result["lat"]["value"]),float(result["long"]["value"]))
-            if url_location_dictionary.has_key(url) :
-                url_location_dictionary[url].append(location_tuple)
+            if url_location_dictionary.has_key(stripped_url) :
+                url_location_dictionary[stripped_url].append(location_tuple)
             else:
                 locations = []
                 locations.append(location_tuple)
-                url_location_dictionary[url] = locations
+                url_location_dictionary[stripped_url] = locations
                 
         offset += limit
     else:

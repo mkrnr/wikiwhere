@@ -7,6 +7,7 @@ Created on Feb 24, 2016
 import argparse
 import json
 from utils import country_lookup
+from urlparse import urlparse
 
 # generate help text for arguments
 parser = argparse.ArgumentParser(description='Merges results from feature extraction JSON files into one CSV file')
@@ -105,20 +106,34 @@ if args.wikipedia_location is not None:
         else:
             for url in urls:
                 add_feature(url, "wikipedia-location", json_data[article])
-    
+count_not_found = 0    
+count_found = 0
 if args.sparql_location is not None:
     print "merging sparql-location"
     used_features.append("sparql-location")
     with open(args.sparql_location) as json_input:    
         json_data = json.load(json_input)
     
-    for url in json_data:
-        if url in url_features_dictionary:
-            country = country_lookup.get_country(json_data[url][0], json_data[url][1])
+    for url in url_features_dictionary:
+        parsed_url = urlparse(str(url))
+        stripped_url = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_url)
+        print stripped_url
+        if stripped_url in json_data:
+            country = country_lookup.get_country(json_data[stripped_url][0], json_data[stripped_url][1])
             if (country is None):
+                count_not_found += 1
+                print "None via maps request: "+ url
                 add_feature(url, "sparql-location", empty_feature_marker)
             else:
+                count_found += 1
                 add_feature(url, "sparql-location", country)
+        else:
+            count_not_found += 1
+            print "url not in dict: "+url
+            exit(0)
+        print "not found: "+str(count_not_found)
+        print "found: "+str(count_found)
+
 
 
 # generate header string
