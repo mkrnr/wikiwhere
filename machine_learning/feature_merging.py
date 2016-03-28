@@ -167,7 +167,11 @@ for url in url_features_dictionary:
     if url_feature_string.endswith(csv_delimiter):
         url_feature_string = url_feature_string[:-1]
 
-    output_file.write(url_feature_string+"\n")
+    try:
+        output_file.write(url_feature_string+"\n")
+    except UnicodeEncodeError:
+        print "UnicodeEncodeError for: " + url_feature_string.encode("utf8")
+        continue
 
 
 output_file.close() # you can omit in most cases as the destructor will call it
