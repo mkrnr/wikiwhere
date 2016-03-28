@@ -151,7 +151,7 @@ output_file.write(header_string+"\n")
 print "merging header: " + header_string
 
 for url in url_features_dictionary:
-    url_feature_string = url+csv_delimiter
+    url_feature_string = url.rstrip('\n')+csv_delimiter
 
     for feature in used_features:
         if feature in url_features_dictionary[url]:

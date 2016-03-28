@@ -47,6 +47,8 @@ with open(inputfile_path, "r") as ins:
         iter_line = iter(line_split)
         article_name = next(iter_line)
         for url in iter_line:
+            # remove trailing new lines
+            url=url.rstrip()
             try:
                 parsed_url = urlparse(url)
                 stripped_url = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_url)
