@@ -117,7 +117,13 @@ if args.sparql_location is not None:
     
     country_checker = countries.CountryChecker(args.world_borders)
     for url in url_features_dictionary:
-        parsed_url = urlparse(str(url))
+        try:
+            parsed_url = urlparse(url)
+        except UnicodeEncodeError:
+            print "UnicodeEncodeError for: " + url.encode("utf8")
+            count_not_found += 1
+            add_feature(url, "sparql-location", empty_feature_marker)
+            continue
         stripped_url = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_url)
         if stripped_url in json_data:
             #country = country_lookup.get_country(json_data[stripped_url][0], json_data[stripped_url][1])
