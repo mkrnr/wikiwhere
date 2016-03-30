@@ -11,7 +11,7 @@ import pickle
 from tld import get_tld
 import json 
 import argparse
-from tld.exceptions import TldDomainNotFound
+from tld.exceptions import TldDomainNotFound, TldBadUrl
 
 #create NamedTuple type for loading the world factbook data set
 Country = collections.namedtuple('Country', 'name, gec, iso2c, iso3c, isonum, stanag, tld')
@@ -48,7 +48,9 @@ for article in json_data:
         try:
             res = get_tld(url, as_object=True)
         except TldDomainNotFound:
-            print "tld not found: "+ str(res)
+            print "tld not found: "+ str(url)
+        except TldBadUrl:
+            print "bad url: "+ str(url)
         tld = res.suffix
         #check suffix for combination and get only last part if necessary, after the dot needs to be added in front for
         if (tld.count(".") > 0):
