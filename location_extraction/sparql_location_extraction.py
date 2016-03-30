@@ -13,6 +13,7 @@ import argparse
 from utils import dbpedia_mapping, majority_voting
 import urllib2
 import socket
+import re
 
 # generate help text for arguments
 parser = argparse.ArgumentParser(description='Extracts Websites with locations from dbpedia.')
@@ -136,6 +137,18 @@ while True:
         for result in results["results"]["bindings"]:
             url=result["url"]["value"]
 
+            try:
+                # fix web.archive.org URLs
+                if str(url).startswith("https://web.archive.org"):
+
+                    url = re.sub(r'https://web.archive.org/web/[0-9]+/','',url)
+
+                    # check if still web.archive.org link or not starting as a URL 
+                    if str(url).startswith("https://web.archive.org") or not str(url).startswith("http"):
+                        continue
+
+            except UnicodeEncodeError:
+                continue
             parsed_url = urlparse(url.encode("utf8"))
             stripped_url = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_url)
 
@@ -155,6 +168,9 @@ while True:
 # do a majority voting on the retrieved locations
 url_majority_location_dictionary = {}
 for url in url_location_dictionary:
+    # skip web.archive.org links
+    if str(url).startswith("https://web.archive.org"):
+        continue
     url_majority_location_dictionary[url]=majority_voting.vote(url_location_dictionary[url],absolute_threshold)
 
 # write results to a JSON file
