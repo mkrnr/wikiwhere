@@ -31,7 +31,11 @@ parser.add_argument('--csv-delimiter', dest='csv_delimiter', type=str, required=
 
 args = parser.parse_args()
 
-csv_delimiter = args.csv_delimiter
+if args.csv_delimiter == "tab":
+    csv_delimiter = "\t"
+else:
+    csv_delimiter = args.csv_delimiter
+    
 empty_feature_marker = args.empty_marker
 
 print "running feature_merging"
