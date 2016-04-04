@@ -14,6 +14,7 @@ import argparse
 from tld.exceptions import TldDomainNotFound, TldBadUrl
 from utils import json_writer
 
+
 #create NamedTuple type for loading the world factbook data set
 #load pickled data
 Country = collections.namedtuple('Country', 'name, gec, iso2c, iso3c, isonum, stanag, tld')
@@ -56,6 +57,8 @@ class TLDLocationExtraction(object):
                 except KeyError:
                     print "no entry found for: "+ str(tld)
 
+        return url_location_dictionary
+
 if __name__ == '__main__':
     # generate help text for arguments
     parser = argparse.ArgumentParser(description='Extracts locations (country ISO code) from the top-level domains of URLs given a JSON file containing Wikipedia articles and URLs referenced by them')
@@ -67,8 +70,8 @@ if __name__ == '__main__':
     
     inputfile_path=args.input
     outputfile_path=args.output
-    wfbdatabse_path=args.world_fact_book_database
-    ianadatabse_path=args.iana_database
+    wfbdatabase_path=args.world_fact_book_database
+    ianadatabase_path=args.iana_database
     
     print "running tld_location_extraction"
     
@@ -76,6 +79,6 @@ if __name__ == '__main__':
     with open(inputfile_path) as json_input:    
         json_data = json.load(json_input)
     
-    tld_location_extraction = TLDLocationExtraction(ianadatabse_path,wfbdatabse_path)
+    tld_location_extraction = TLDLocationExtraction(ianadatabase_path,wfbdatabase_path)
     url_location_dictionary = tld_location_extraction.get_tld_locations(json_data)
     json_writer.write_json_file(url_location_dictionary, outputfile_path)

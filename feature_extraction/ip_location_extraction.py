@@ -40,6 +40,7 @@ class IPLocationExtraction(object):
                     print "URL not found: " + url
                 except geoip2.errors.AddressNotFoundError:
                     print "IP location not found: " + ip
+
         return url_location_dictionary
     
 

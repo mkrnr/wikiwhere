@@ -48,7 +48,6 @@ class WebsiteLanguageExtraction(object):
                     language = detect(text)
         
                     url_language_dictionary[url] = language
-                    print language
         
                 except AttributeError:
                     print "language not detected: " + url
@@ -77,6 +76,8 @@ class WebsiteLanguageExtraction(object):
                 except TimeoutException:
                     print "timeout for: " + url
                     continue
+
+        return url_language_dictionary
 
 if __name__ == '__main__':
     # generate help text for arguments
