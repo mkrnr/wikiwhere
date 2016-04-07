@@ -18,12 +18,11 @@ import signal
 import HTMLParser
 from httplib import InvalidURL
 from utils import json_writer
-
+from utils.timeout_exception import TimeoutException
 
 
 class WebsiteLanguageExtraction(object):
     
-
     def get_website_languages(self,json_data):
         url_language_dictionary = {}
         
@@ -107,7 +106,3 @@ if __name__ == '__main__':
     url_language_dictionary = website_language_extraction.get_website_languages(json_data)
     json_writer.write_json_file(url_language_dictionary, outputfile_path)
     
-
-# timeout handling from: http://stackoverflow.com/a/25027182/2174538
-class TimeoutException(Exception):   # Custom exception class
-    pass
