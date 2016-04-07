@@ -22,6 +22,7 @@ from utils import json_writer
 
 
 class WebsiteLanguageExtraction(object):
+    
 
     def get_website_languages(self,json_data):
         url_language_dictionary = {}
@@ -79,6 +80,12 @@ class WebsiteLanguageExtraction(object):
 
         return url_language_dictionary
 
+    def timeout_handler(self,signum, frame):   # Custom signal handler
+        raise TimeoutException
+    
+    # Change the behavior of SIGALRM
+    signal.signal(signal.SIGALRM, timeout_handler)
+
 if __name__ == '__main__':
     # generate help text for arguments
     parser = argparse.ArgumentParser(description='Extracts languages from the content of URLs given in a JSON file that contains Wikipedia articles and their referenced URLs')
@@ -104,9 +111,3 @@ if __name__ == '__main__':
 # timeout handling from: http://stackoverflow.com/a/25027182/2174538
 class TimeoutException(Exception):   # Custom exception class
     pass
-
-def timeout_handler(signum, frame):   # Custom signal handler
-    raise TimeoutException
-
-# Change the behavior of SIGALRM
-signal.signal(signal.SIGALRM, timeout_handler)
