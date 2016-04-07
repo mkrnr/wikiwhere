@@ -138,14 +138,9 @@ while True:
             url=result["url"]["value"]
 
             try:
-                # fix web.archive.org URLs
-                if str(url).startswith("https://web.archive.org"):
-
-                    url = re.sub(r'https://web.archive.org/web/[0-9]+/','',url)
-
-                    # check if still web.archive.org link or not starting as a URL 
-                    if str(url).startswith("https://web.archive.org") or not str(url).startswith("http"):
-                        continue
+                # skip web.archive.org URLs
+                if "web.archive.org" in str(url):
+                    continue
 
             except UnicodeEncodeError:
                 continue
@@ -169,7 +164,7 @@ while True:
 url_majority_location_dictionary = {}
 for url in url_location_dictionary:
     # skip web.archive.org links
-    if str(url).startswith("https://web.archive.org"):
+    if "web.archive.org" in str(url):
         continue
     url_majority_location_dictionary[url]=majority_voting.vote(url_location_dictionary[url],absolute_threshold)
 
