@@ -43,7 +43,7 @@ class WebsiteLanguageExtraction(object):
                     decoded_html = html.decode(errors='ignore')
                     markup_text =  html2text.html2text(decoded_html)
                     html_from_markup = markdown(markup_text)
-                    text = ''.join(BeautifulSoup(html_from_markup).findAll(text=True))
+                    text = ''.join(BeautifulSoup(html_from_markup,"lxml").findAll(text=True))
         
                     language = detect(text)
         
