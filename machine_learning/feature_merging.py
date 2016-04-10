@@ -164,6 +164,10 @@ for url in url_features_dictionary:
     # skip urls containing tabs
     if csv_delimiter in str(url):
         continue
+    
+    # skip web.archive.org URLs
+    if "web.archive.org" in str(url):
+        continue
 
     url_feature_string = url.rstrip('\n')+csv_delimiter
 
