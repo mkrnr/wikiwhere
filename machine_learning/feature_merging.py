@@ -169,6 +169,10 @@ for url in url_features_dictionary:
     if "web.archive.org" in str(url):
         continue
 
+    # skip webcitation.org URLs
+    if "webcitation.org" in str(url):
+        continue
+
     url_feature_string = url.rstrip('\n')+csv_delimiter
 
     for feature in used_features:

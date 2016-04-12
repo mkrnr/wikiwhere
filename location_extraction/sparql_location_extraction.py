@@ -166,6 +166,9 @@ for url in url_location_dictionary:
     # skip web.archive.org links
     if "web.archive.org" in str(url):
         continue
+    # skip web.archive.org links
+    if "webcitation.org" in str(url):
+        continue
     url_majority_location_dictionary[url]=majority_voting.vote(url_location_dictionary[url],absolute_threshold)
 
 # write results to a JSON file
