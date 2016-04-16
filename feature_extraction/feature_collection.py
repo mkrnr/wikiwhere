@@ -31,16 +31,18 @@ class FeatureCollection(object):
         urls.append(url)
         article_url_dictionary[article_name] = urls
         json_data = json.loads(json.dumps(article_url_dictionary))
-        print json_data
 
         ip_locations = self.ip_location_extraction.get_ip_locations(json_data)
         tld_locations = self.tld_location_extraction.get_tld_locations(json_data)
         website_languages = self.website_language_extraction.get_website_languages(json_data)
 
         features = {}
-        features["ip-location"] = ip_locations[url] 
-        features["tld-location"] = tld_locations[url] 
-        features["website-language"] = website_languages[url]
+        if url in ip_locations:
+            features["ip-location"] = ip_locations[url] 
+        if url in tld_locations:
+            features["tld-location"] = tld_locations[url] 
+        if url in website_languages:
+            features["website-language"] = website_languages[url]
         
         return features
     

@@ -37,8 +37,10 @@ class TLDLocationExtraction(object):
                     res = get_tld(url, as_object=True)
                 except TldDomainNotFound:
                     print "tld not found: "+ str(url)
+                    continue
                 except TldBadUrl:
                     print "bad url: "+ str(url)
+                    continue
                 tld = res.suffix
                 #check suffix for combination and get only last part if necessary, after the dot needs to be added in front for
                 if (tld.count(".") > 0):

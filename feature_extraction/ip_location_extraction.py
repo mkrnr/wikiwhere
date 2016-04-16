@@ -18,7 +18,6 @@ class IPLocationExtraction(object):
         # This creates a Reader object. You should use the same object
         # across multiple requests as creation of it is expensive.
         self.db_reader = geoip2.database.Reader(database_path)
-        print "init done"
 
     def get_ip_locations(self,json_data):
         url_location_dictionary = {}
