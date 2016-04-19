@@ -33,17 +33,16 @@ if __name__ == "__main__":
     #print language
 
     article_path = os.path.join("data","articles",language,title+".json")
-    if os.path.isfile(article_path):
-        # load existing article from JSON
-        with open(article_path) as data_file:
-            data = json.load(data_file)
-        print json.dumps(data)
-    else:
+    if not os.path.isfile(article_path):
         # generate new article
         collected_features = article_extraction.collect_features(article_url)
         collected_features_with_prediction = article_extraction.add_predictions(language,collected_features)
         json_writer.write_json_file(collected_features_with_prediction, article_path)
         #json_writer.write_json_file(collected_features, article_path)
+    # load existing article from JSON
+    with open(article_path) as data_file:
+        data = json.load(data_file)
+    print json.dumps(data)
 
     #else:
     #    print "file not found"
