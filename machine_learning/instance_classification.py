@@ -18,7 +18,7 @@ class InstanceClassification:
             self.mappings[language] = text_file.read().split()
     
     def classify(self, language, observation):
-        print observation
+        #print observation
         clf = self.models[language]
         mapping = self.mappings[language]
         mapped_observation = []
@@ -27,7 +27,7 @@ class InstanceClassification:
                 mapped_observation.append(mapping.index(observation[i]))
             else:
                 mapped_observation.append(mapping.index("NaN"))
-        print mapped_observation
+        #print mapped_observation
         res=clf.predict(mapped_observation)
         return mapping[res[0]]
         

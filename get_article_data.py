@@ -3,6 +3,7 @@ from main.article_extraction import ArticleExtraction
 import collections
 import os
 import json
+from utils import json_writer
 
 
 #create NamedTuple type for loading the world factbook data set
@@ -33,17 +34,18 @@ if __name__ == "__main__":
 
     article_path = os.path.join("data","articles",language,title+".json")
     if os.path.isfile(article_path):
+        # load existing article from JSON
         with open(article_path) as data_file:
             data = json.load(data_file)
         print json.dumps(data)
+    else:
+        # generate new article
+        collected_features = article_extraction.collect_features(article_url)
+        collected_features_with_prediction = article_extraction.add_predictions(language,collected_features)
+        json_writer.write_json_file(collected_features_with_prediction, article_path)
+        #json_writer.write_json_file(collected_features, article_path)
 
     #else:
     #    print "file not found"
     #
     #print article_path
-
-
-
-
-
-

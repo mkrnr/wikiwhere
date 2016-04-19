@@ -38,7 +38,7 @@ class ArticleExtraction(object):
                 collected_featues[extracted_url]=current_features
         return collected_featues
 
-    def add_predictions(self,wikipedia_language,collected_features):
+    def add_predictions(self,language,collected_features):
         for extracted_url in collected_features:
             observation = []
 
