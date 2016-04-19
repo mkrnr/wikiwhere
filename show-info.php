@@ -1,6 +1,8 @@
 <html>
   <head>
     <?php
+      $new_crawl=filter_input(INPUT_GET, 'new-crawl');
+
       $python=filter_input(INPUT_GET, 'python');
       if (!isset($python)){
         $python="/usr/bin/python2";
@@ -14,7 +16,11 @@
       $handle = @fopen($article_url,'r');
 
       if($handle !== false){
-         $article_json = exec($python.' get_article_data.py ' . $article_url);
+         if($new_crawl == true){
+           $article_json = exec($python.' get_article_data.py ' . $article_url . " " . $new_crawl);
+         }else{
+           $article_json = exec($python.' get_article_data.py ' . $article_url);
+         }
       }
       else{
          echo "URL doesn't exist";

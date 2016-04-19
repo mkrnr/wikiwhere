@@ -14,6 +14,11 @@ if __name__ == "__main__":
     # get article url
     article_url =  sys.argv[1]
 
+    new_crawl = False
+    if len(sys.argv)>2:
+        if  sys.argv[2] == "true":
+            new_crawl = True
+
     base_dir=os.path.dirname(os.path.realpath(__file__))
     sys.path.append(base_dir)
 
@@ -35,7 +40,7 @@ if __name__ == "__main__":
     language_path = os.path.join("data","articles",language)
     article_path = os.path.join(language_path,title+".json")
 
-    if not os.path.isfile(article_path):
+    if new_crawl or not os.path.isfile(article_path):
         # generate new article
         collected_features = article_extraction.collect_features(article_url)
         collected_features_with_prediction = article_extraction.add_predictions(language,collected_features)
