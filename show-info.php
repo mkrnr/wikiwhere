@@ -23,12 +23,17 @@
     ?>
 
     <script>
-      var article_json_var = "<?php echo $article_json; ?>";
-      document.write("<p>loaded via python, displayed in JS: </p>")
-      document.write("<p>")
-      document.write(article_json_var)
-      document.write("</p>")
+      var article_json_string = '<?php echo $article_json; ?>';
+      document.write("<p>Loaded via Python, displayed via JS: </p>");
+      try {
+        article_json_parsed = JSON.parse(article_json_string);
+      } catch (e) {
+        document.write("JSON is not valid");
+      }
 
+      // print out json:
+      document.write('<pre id="json"></pre>');
+      document.getElementById("json").innerHTML = JSON.stringify(article_json_parsed, undefined, 2);
     </script>
   </body>
 </html>

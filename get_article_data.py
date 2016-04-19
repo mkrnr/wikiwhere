@@ -14,7 +14,7 @@ if __name__ == "__main__":
     article_url =  sys.argv[1]
 
     base_dir=os.path.dirname(os.path.realpath(__file__))
-    sys.path.append(base_dir) 
+    sys.path.append(base_dir)
 
     data_path = os.path.join(base_dir,"data")
     database_path = os.path.join(data_path,"databases")
@@ -33,16 +33,16 @@ if __name__ == "__main__":
 
     article_path = os.path.join("data","articles",language,title+".json")
     if os.path.isfile(article_path):
-        with open(article_path) as data_file:    
+        with open(article_path) as data_file:
             data = json.load(data_file)
-        print data
+        print json.dumps(data)
 
     #else:
     #    print "file not found"
-    #    
+    #
     #print article_path
-    
-    
+
+
 
 
 
