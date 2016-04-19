@@ -32,19 +32,22 @@ if __name__ == "__main__":
 
     #print language
 
-    article_path = os.path.join("data","articles",language,title+".json")
+    language_path = os.path.join("data","articles",language)
+    article_path = os.path.join(language_path,title+".json")
+
     if not os.path.isfile(article_path):
         # generate new article
         collected_features = article_extraction.collect_features(article_url)
         collected_features_with_prediction = article_extraction.add_predictions(language,collected_features)
+
+        # generate directory if it doesn't exist
+        if not os.path.exists(language_path):
+            os.makedirs(language_path)
+
+        # write generated file
         json_writer.write_json_file(collected_features_with_prediction, article_path)
-        #json_writer.write_json_file(collected_features, article_path)
+    
     # load existing article from JSON
     with open(article_path) as data_file:
         data = json.load(data_file)
     print json.dumps(data)
-
-    #else:
-    #    print "file not found"
-    #
-    #print article_path
