@@ -9,7 +9,7 @@
     ?>
   </head>
   <body>
-    <form action=<?php echo $call ?> method="post">
+    <form action=<?php echo $call ?> method="get">
       Article name: <input type="text" name="article-url"><br>
       <input type="submit">
     </form>

@@ -10,7 +10,7 @@
   <body>
 
     <?php
-      $article_url = $_POST['article-url'];
+      $article_url = $_GET['article-url'];
       $handle = @fopen($article_url,'r');
 
       if($handle !== false){
@@ -24,8 +24,10 @@
 
     <script>
       var article_json_var = "<?php echo $article_json; ?>";
-      document.write("<p>loaded via python, displayed in JS: <p>")
+      document.write("<p>loaded via python, displayed in JS: </p>")
+      document.write("<p>")
       document.write(article_json_var)
+      document.write("</p>")
 
     </script>
   </body>
