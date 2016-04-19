@@ -28,7 +28,12 @@ class InstanceClassification:
             else:
                 mapped_observation.append(mapping.index("NaN"))
         #print mapped_observation
-        res=clf.predict(mapped_observation)
+        try:
+            res=clf.predict(mapped_observation)
+        except TypeError:
+            print "prediction not possible" + str(mapped_observation)
+            return None
+            
         return mapping[res[0]]
         
 if __name__ == '__main__':

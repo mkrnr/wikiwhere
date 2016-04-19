@@ -39,6 +39,8 @@ class ArticleExtraction(object):
         return collected_featues
 
     def add_predictions(self,language,collected_features):
+        
+        urls_to_be_removed = []
         for extracted_url in collected_features:
             observation = []
 
@@ -58,11 +60,24 @@ class ArticleExtraction(object):
                 observation.append("NaN")
 
             if language in self.languages:
-                collected_features[extracted_url]["classification"] = self.instance_classification.classify(language, observation)
-            
-            collected_features[extracted_url]["classification-general"] = self.instance_classification.classify("general",observation)
+                classification = self.instance_classification.classify(language, observation)
+                if classification is None:
+                    if extracted_url not in urls_to_be_removed:
+                        urls_to_be_removed.append(extracted_url) 
+                else:
+                    collected_features[extracted_url]["classification"] = classification
+                    
+            classification_general = self.instance_classification.classify("general",observation)
+            if classification_general is None:
+                if extracted_url not in urls_to_be_removed:
+                    urls_to_be_removed.append(extracted_url) 
+            else:
+                collected_features[extracted_url]["classification-general"] = classification_general
 
             collected_features[extracted_url]["wikipedia-language"] = language
+
+        for url_to_be_removed in urls_to_be_removed:
+            del collected_features[url_to_be_removed]
 
         return collected_features
 
