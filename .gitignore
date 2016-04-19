@@ -3,5 +3,4 @@
 /.pydevproject
 *.pyc
 
-__init__.py
-
+/data
