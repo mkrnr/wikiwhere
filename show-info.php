@@ -9,7 +9,7 @@
         $python="/usr/bin/python2";
       }
     ?>
-	<script type="text/javascript" src="js/d3.min.js"></script>
+	<script type="text/javascript" src="js/d3.js"></script>
   </head>
   <body>
 
