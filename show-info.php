@@ -43,11 +43,11 @@
 		  .selectAll('th')
 		  .data(columns).enter()
 		  .append('th')
-		    .text(function (column) { return column; });
+		    .text(function (column) { return column.id; });
 
 		// create a row for each object in the data
 		var rows = tbody.selectAll('tr')
-		  .data(data)
+		  .data(data.objects)
 		  .enter()
 		  .append('tr');
 
@@ -55,7 +55,7 @@
 		var cells = rows.selectAll('td')
 		  .data(function (row) {
 		    return columns.map(function (column) {
-		      return {column: column, value: row[column]};
+		      return {column: column.id, value: eval('row.'+column.key) };
 		    });
 		  })
 		  .enter()
