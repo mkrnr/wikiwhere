@@ -9,7 +9,7 @@
         $python="/usr/bin/python2";
       }
     ?>
-	<script type="text/javascript" src="js/d3.min.js"></script>
+    <script type="text/javascript" src="js/d3.js"></script>
   </head>
   <body>
 
@@ -32,7 +32,7 @@
 	<div id="datatable"></div>
 	<script>
 	  var article_path = '<?php echo $article_path; ?>';
-	  d3.json("article_path", function (error, data){
+	  d3.json('<?php echo $article_path; ?>', function (error, data){
 		  function tabulate(data, columns) {
 			var table = d3.select('body').append('table')
 			var thead = table.append('thead')
@@ -43,11 +43,11 @@
 		  .selectAll('th')
 		  .data(columns).enter()
 		  .append('th')
-		    .text(function (column) { return column; });
+		    .text(function (column) { return column.id; });
 
 		// create a row for each object in the data
 		var rows = tbody.selectAll('tr')
-		  .data(data)
+		  .data(data.objects)
 		  .enter()
 		  .append('tr');
 
@@ -55,7 +55,7 @@
 		var cells = rows.selectAll('td')
 		  .data(function (row) {
 		    return columns.map(function (column) {
-		      return {column: column, value: row[column]};
+		      return {column: column.id, value: eval('row.'+column.key) };
 		    });
 		  })
 		  .enter()

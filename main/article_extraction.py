@@ -30,53 +30,57 @@ class ArticleExtraction(object):
         collected_featues = {}
         extracted_urls_len = len(extracted_urls)
         extracted_urls_count = 0
+        
+        id_count = 0
         for extracted_url in extracted_urls:
             extracted_urls_count += 1
             print "extract URL " + str(extracted_urls_count)+" of "+str(extracted_urls_len)
-            if extracted_url not in collected_featues:
-                current_features = self.feature_collection.get_features("", extracted_url)
-                collected_featues[extracted_url]=current_features
+
+            current_features = self.feature_collection.get_features("", extracted_url)
+            current_features["url"] = extracted_url
+            collected_featues[id_count] = current_features
+            id_count += 1
         return collected_featues
 
     def add_predictions(self,language,collected_features):
         
-        urls_to_be_removed = []
-        for extracted_url in collected_features:
+        ids_to_be_removed = []
+        for url_id in collected_features:
             observation = []
-
-            if "ip-location" in collected_features[extracted_url]:
-                observation.append(collected_features[extracted_url]["ip-location"])
+            
+            if "ip-location" in collected_features[url_id]:
+                observation.append(collected_features[url_id]["ip-location"])
             else:
                 observation.append("NaN")
 
-            if "tld-location" in collected_features[extracted_url]:
-                observation.append(collected_features[extracted_url]["tld-location"])
+            if "tld-location" in collected_features[url_id]:
+                observation.append(collected_features[url_id]["tld-location"])
             else:
                 observation.append("NaN")
 
-            if "website-language" in collected_features[extracted_url]:
-                observation.append(collected_features[extracted_url]["website-language"].upper())
+            if "website-language" in collected_features[url_id]:
+                observation.append(collected_features[url_id]["website-language"].upper())
             else:
                 observation.append("NaN")
 
             if language in self.languages:
                 classification = self.instance_classification.classify(language, observation)
                 if classification is None:
-                    if extracted_url not in urls_to_be_removed:
-                        urls_to_be_removed.append(extracted_url) 
+                    if url_id not in ids_to_be_removed:
+                        ids_to_be_removed.append(url_id) 
                 else:
-                    collected_features[extracted_url]["classification"] = classification
+                    collected_features[url_id]["classification"] = classification
                     
             classification_general = self.instance_classification.classify("general",observation)
             if classification_general is None:
-                if extracted_url not in urls_to_be_removed:
-                    urls_to_be_removed.append(extracted_url) 
+                if url_id not in ids_to_be_removed:
+                    ids_to_be_removed.append(url_id) 
             else:
-                collected_features[extracted_url]["classification-general"] = classification_general
+                collected_features[url_id]["classification-general"] = classification_general
 
-            collected_features[extracted_url]["wikipedia-language"] = language
+            collected_features[url_id]["wikipedia-language"] = language
 
-        for url_to_be_removed in urls_to_be_removed:
+        for url_to_be_removed in ids_to_be_removed:
             del collected_features[url_to_be_removed]
 
         return collected_features
