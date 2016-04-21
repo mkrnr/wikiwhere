@@ -53,6 +53,7 @@ if __name__ == "__main__":
         json_writer.write_json_file(collected_features_with_prediction, article_path)
     
     # load existing article from JSON
-    with open(article_path) as data_file:
-        data = json.load(data_file)
-    print json.dumps(data)
+    #with open(article_path) as data_file:
+    #    data = json.load(data_file)
+
+    print article_path
