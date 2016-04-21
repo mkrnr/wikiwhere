@@ -44,13 +44,14 @@ if __name__ == "__main__":
         # generate new article
         collected_features = article_extraction.collect_features(article_url)
         collected_features_with_prediction = article_extraction.add_predictions(language,collected_features)
+        collected_features_array = article_extraction.get_as_array(collected_features_with_prediction)
 
         # generate directory if it doesn't exist
         if not os.path.exists(language_path):
             os.makedirs(language_path)
 
         # write generated file
-        json_writer.write_json_file(collected_features_with_prediction, article_path)
+        json_writer.write_json_file(collected_features_array, article_path)
     
     # load existing article from JSON
     #with open(article_path) as data_file:

@@ -84,6 +84,19 @@ class ArticleExtraction(object):
             del collected_features[url_to_be_removed]
 
         return collected_features
+    
+    def get_as_array(self,url_feature_dict):
+        url_feature_array = []
+        
+        for feature_id in url_feature_dict:
+            dict_for_feature_id = {}
+
+            for feature_name in url_feature_dict[feature_id]:
+                dict_for_feature_id[feature_name] = url_feature_dict[feature_id][feature_name]
+            
+            url_feature_array.append(dict_for_feature_id)
+        
+        return url_feature_array
 
         
     
