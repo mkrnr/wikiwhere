@@ -32,7 +32,7 @@
 	<div id="datatable"></div>
 	<script>
 	  var article_path = '<?php echo $article_path; ?>';
-	  d3.json("article_path", function (error, data){
+	  d3.json('<?php echo $article_path; ?>', function (error, data){
 		  function tabulate(data, columns) {
 			var table = d3.select('body').append('table')
 			var thead = table.append('thead')
