@@ -29,9 +29,67 @@
          return false;
       }
     ?>
-	<script>
-	  var article_path = '<?php echo $article_path; ?>';
-	  d3.json('<?php echo $article_path; ?>', function (error, data){
+    <script>
+        var article_path = '<?php echo $article_path; ?>';
+        var article_counts_path = article_path.replace(".json","-counts-classification-general.json");
+    </script>
+    <h1><?php echo $article_url; ?></h1>
+    <script>
+	var data;
+		
+	//var article_counts_path = article_path;
+
+	d3.json(article_counts_path, function(dataset) {
+    data = dataset;
+
+	var width = 1000,
+	  height = 400,
+	  radius = Math.min(width, height) / 2;
+
+	var color = d3.scale.category20();
+
+	var arc = d3.svg.arc()
+	  .outerRadius(radius - 10)
+	  .innerRadius(radius - 70);
+
+	var pie = d3.layout.pie()
+	  .sort(null)
+	  .value(function(d) {
+		return d.count;
+	  });
+
+
+
+	var svg = d3.select("body").append("svg")
+	  .attr("width", width)
+	  .attr("height", height)
+	  .append("g")
+	  .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+	var g = svg.selectAll(".arc")
+	  .data(pie(data))
+	  .enter().append("g")
+	  .attr("class", "arc");
+
+	g.append("path")
+	  .attr("d", arc)
+	  .style("fill", function(d) {
+		return color(d.data.label);
+	  });
+
+	g.append("text")
+	  .attr("transform", function(d) {
+		return "translate(" + arc.centroid(d) + ")";
+	  })
+	  .attr("dy", ".35em")
+	  .style("text-anchor", "middle")
+	  .text(function(d) {
+		return d.data.label+": "+d.data.count;
+	  });
+	  });
+    </script>
+    <script>
+        d3.json(article_path, function (error, data){
 
 	function tabulate(data, columns) {
 		var table = d3.select('body').append('table')
@@ -67,7 +125,7 @@
 	// render the table(s)
 	tabulate(data, ['url', 'classification', 'classification-general', 'ip-location', 'tld-location', 'website-language', 'wikipedia-language']); // 7 column table
 	});
-	</script>
+    </script>
     <script>
       //var article_path = '<?php echo $article_path; ?>';
       //document.write("<p>Loaded via Python, displayed via JS: </p>");
