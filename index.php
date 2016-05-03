@@ -11,7 +11,7 @@
   </head>
   <body>
     <form action=<?php echo $call ?> method="get">
-      Article name: <input type="text" name="article-url"><br>
+      Article URL: <input type="text" name="article-url" size=50 placeholder="https://de.wikipedia.org/wiki/Test"><br>
       <input type="checkbox" name="new-crawl" value="true">Fresh crawl<br>
       <input type="submit">
     </form>
