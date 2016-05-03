@@ -9,11 +9,12 @@ class CountGeneration(object):
     def generate_counts(self,collected_features_array,feature_name):
         feature_counts = {}
         for instance in collected_features_array:
-            feature = instance[feature_name]
-            if feature in feature_counts:
-                feature_counts[feature] += 1
-            else:
-                feature_counts[feature] = 1 
+            if feature_name in instance:
+                feature = instance[feature_name]
+                if feature in feature_counts:
+                    feature_counts[feature] += 1
+                else:
+                    feature_counts[feature] = 1 
         
         return feature_counts
 
