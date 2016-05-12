@@ -2,6 +2,3 @@
 /.settings
 /.pydevproject
 *.pyc
-
-/data
-/js
