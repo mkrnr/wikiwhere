@@ -11,7 +11,6 @@ from sklearn.preprocessing import LabelEncoder,OneHotEncoder
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import svm, cross_validation
-from astropy.units import liter
 from sklearn.preprocessing import Imputer
 from sklearn.cross_validation import train_test_split
 from sklearn.cross_validation import ShuffleSplit
