@@ -17,8 +17,8 @@ from markdown import markdown
 import signal
 import HTMLParser
 from httplib import InvalidURL
-from utils import json_writer
-from utils.timeout_exception import TimeoutException
+from wikiwhere.utils import json_writer
+from wikiwhere.utils.timeout_exception import TimeoutException
 
 
 class WebsiteLanguageExtraction(object):

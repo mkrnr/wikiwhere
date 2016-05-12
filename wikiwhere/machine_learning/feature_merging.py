@@ -6,7 +6,7 @@ Created on Feb 24, 2016
 
 import argparse
 import json
-from utils import countries
+from wikiwhere.utils import countries
 from urlparse import urlparse
 
 # generate help text for arguments

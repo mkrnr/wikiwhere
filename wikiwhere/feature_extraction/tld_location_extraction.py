@@ -12,7 +12,7 @@ from tld import get_tld
 import json 
 import argparse
 from tld.exceptions import TldDomainNotFound, TldBadUrl
-from utils import json_writer
+from wikiwhere.utils import json_writer
 
 
 #create NamedTuple type for loading the world factbook data set

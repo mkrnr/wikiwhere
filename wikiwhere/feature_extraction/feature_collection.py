@@ -3,9 +3,9 @@ Created on Apr 4, 2016
 
 @author: martin
 '''
-from feature_extraction.ip_location_extraction import IPLocationExtraction
-from feature_extraction.tld_location_extraction import TLDLocationExtraction
-from feature_extraction.website_language_extraction import WebsiteLanguageExtraction
+from wikiwhere.feature_extraction.ip_location_extraction import IPLocationExtraction
+from wikiwhere.feature_extraction.tld_location_extraction import TLDLocationExtraction
+from wikiwhere.feature_extraction.website_language_extraction import WebsiteLanguageExtraction
 import json
 import argparse
 import collections

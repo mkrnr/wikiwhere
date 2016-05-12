@@ -9,7 +9,7 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 import json
 import argparse
-from utils import dbpedia_mapping, country_lookup, majority_voting, json_writer
+from wikiwhere.utils import dbpedia_mapping, country_lookup, majority_voting, json_writer
 import urllib2
 import socket
 

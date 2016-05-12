@@ -1,10 +1,10 @@
 import sys
-from main.article_extraction import ArticleExtraction
+from wikiwhere.main.article_extraction import ArticleExtraction
 import collections
 import os
 import json
-from utils import json_writer
-from main.count_generation import CountGeneration
+from wikiwhere.utils import json_writer
+from wikiwhere.main.count_generation import CountGeneration
 
 
 #create NamedTuple type for loading the world factbook data set

@@ -3,12 +3,12 @@ Created on Apr 15, 2016
 
 @author: Martin Koerner <info@mkoerner.de>
 '''
-from feature_extraction.feature_collection import FeatureCollection
+from wikiwhere.feature_extraction.feature_collection import FeatureCollection
 import argparse
-from url_extraction.wikipedia_api_url_extraction import WikipediaApiUrlExtraction
+from wikiwhere.url_extraction.wikipedia_api_url_extraction import WikipediaApiUrlExtraction
 import collections
-from utils import json_writer
-from machine_learning.instance_classification import InstanceClassification
+from wikiwhere.utils import json_writer
+from wikiwhere.machine_learning.instance_classification import InstanceClassification
 
 #create NamedTuple type for loading the world factbook data set
 #load pickled data

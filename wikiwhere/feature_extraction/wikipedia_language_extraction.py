@@ -13,7 +13,7 @@ import lxml.etree as ET
 from langdetect import detect 
 import argparse
 from langdetect.lang_detect_exception import LangDetectException
-from utils import json_writer
+from wikiwhere.utils import json_writer
 
 class WikipediaLanguageExtraction(object):
 

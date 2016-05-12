@@ -10,7 +10,7 @@ from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 from urlparse import urlparse
 import json 
 import argparse
-from utils import dbpedia_mapping, majority_voting
+from wikiwhere.utils import dbpedia_mapping, majority_voting
 import urllib2
 import socket
 import re

@@ -10,7 +10,7 @@ from urlparse import urlsplit
 import json 
 
 import argparse
-from utils import json_writer
+from wikiwhere.utils import json_writer
 
 class IPLocationExtraction(object):
 
