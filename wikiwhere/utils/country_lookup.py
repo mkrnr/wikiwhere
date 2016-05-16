@@ -37,3 +37,4 @@ def get_country_local(lat, lon,):
     cc = CountryChecker('/home/martin/downloads/TM_WORLD_BORDERS-0.3/TM_WORLD_BORDERS-0.3.shp')
     country = cc.getCountry(Point(lat,lon)).iso
     return country
+
