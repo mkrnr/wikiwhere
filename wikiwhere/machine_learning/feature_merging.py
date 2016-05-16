@@ -6,7 +6,8 @@ Created on Feb 24, 2016
 
 import argparse
 import json
-from wikiwhere.utils import countries
+from wikiwhere.utils.countries import CountryChecker, Point
+
 from urlparse import urlparse
 
 # generate help text for arguments
@@ -119,7 +120,7 @@ if args.sparql_location is not None:
     with open(args.sparql_location) as json_input:    
         json_data = json.load(json_input)
     
-    country_checker = countries.CountryChecker(args.world_borders)
+    country_checker = CountryChecker(args.world_borders)
     for url in url_features_dictionary:
         try:
             parsed_url = urlparse(url)
@@ -131,7 +132,7 @@ if args.sparql_location is not None:
         stripped_url = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_url)
         if stripped_url in json_data:
             #country = country_lookup.get_country(json_data[stripped_url][0], json_data[stripped_url][1])
-            country = country_checker.getCountry(countries.Point(json_data[stripped_url][0], json_data[stripped_url][1]))
+            country = country_checker.getCountry(Point(json_data[stripped_url][0], json_data[stripped_url][1]))
             if (country is None):
                 count_not_found += 1
                 add_feature(url, "sparql-location", empty_feature_marker)
