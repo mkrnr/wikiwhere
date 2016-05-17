@@ -4,6 +4,7 @@ Created on May 3, 2016
 @author: Martin Koerner <info@mkoerner.de>
 '''
 
+import operator
 
 class CountGeneration(object):
     def generate_counts(self,collected_features_array,feature_name):
@@ -20,12 +21,14 @@ class CountGeneration(object):
 
     def get_as_array(self,feature_counts):
         feature_count_array = []
-        
-        for label in feature_counts:
+
+        sorted_feature_counts = sorted(feature_counts.items(), key=operator.itemgetter(1),reverse=True)
+
+        for feature_count_tuple in sorted_feature_counts:
             dict_for_label = {}
 
-            dict_for_label["label"] = label
-            dict_for_label["count"] = feature_counts[label]
+            dict_for_label["label"] = feature_count_tuple[0]
+            dict_for_label["count"] = feature_count_tuple[1]
         
             feature_count_array.append(dict_for_label)
         
