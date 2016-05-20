@@ -85,6 +85,37 @@ class ArticleExtraction(object):
 
         return collected_features
     
+    def fix_outliers(self, url_feature_dict, classification_id, fixed_classification_id, features):
+        for feature_id in url_feature_dict:
+            if classification_id in url_feature_dict[feature_id]:
+                classification = url_feature_dict[feature_id][classification_id]
+            else:
+                continue
+
+            feature_values = {}
+            for feature in features:
+                if feature in url_feature_dict[feature_id]:
+                    feature_values[feature] = url_feature_dict[feature_id][feature]
+                
+            classification_in_features = False
+            for feature_name in feature_values:
+                if classification.lower() == feature_values[feature_name].lower():
+                    classification_in_features = True
+
+            if not classification_in_features:
+                # take first element in feature list and use it
+                if features[0] in feature_values:
+                    url_feature_dict[feature_id][fixed_classification_id] = feature_values[features[0]]
+
+            if fixed_classification_id not in url_feature_dict[feature_id]:
+                url_feature_dict[feature_id][fixed_classification_id] = classification
+
+        return url_feature_dict
+                
+             
+                        
+                 
+        
     def get_as_array(self,url_feature_dict):
         url_feature_array = []
         
