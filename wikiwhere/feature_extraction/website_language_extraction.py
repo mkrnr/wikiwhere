@@ -49,32 +49,8 @@ class WebsiteLanguageExtraction(object):
         
                     url_language_dictionary[url] = language
         
-                except AttributeError:
-                    print "language not detected: " + url
-                    continue
-                except langdetect.lang_detect_exception.LangDetectException:
-                    print "no features in text: " + url
-                    continue
-                except IOError:
-                    print "URL not found: " + url
-                    continue
-                except ValueError:
-                    print "ValueError for: " + url
-                    continue
-                except TypeError:
-                    print "TypeError for: " + url
-                    continue
-                except RuntimeError:
-                    print "RuntimeError for: " + url
-                    continue
-                except HTMLParser.HTMLParseError:
-                    print "HTMLParseError for: " + url
-                    continue
-                except InvalidURL:
-                    print "InvalidURL for: " + url
-                    continue
-                except TimeoutException:
-                    print "timeout for: " + url
+                except Exception as exception:
+                    print "Continue after " + exception.__class__.__name__ + " for URL: " + url 
                     continue
 
         return url_language_dictionary
