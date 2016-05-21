@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 Created on Jan 29, 2016
 
@@ -40,13 +41,13 @@ class WebsiteLanguageExtraction(object):
         
                 try:
                     html = urllib.urlopen(url).read()
-                    decoded_html = html.decode(errors='ignore')
-                    markup_text =  html2text.html2text(decoded_html)
+                    utf8_html = unicode(html,"utf8")
+                    markup_text =  html2text.html2text(utf8_html)
                     html_from_markup = markdown(markup_text)
                     text = ''.join(BeautifulSoup(html_from_markup,"lxml").findAll(text=True))
-        
+            
                     language = detect(text)
-        
+            
                     url_language_dictionary[url] = language
         
                 except Exception as exception:
