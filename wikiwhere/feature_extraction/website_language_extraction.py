@@ -20,6 +20,10 @@ import HTMLParser
 from httplib import InvalidURL
 from wikiwhere.utils import json_writer
 from wikiwhere.utils.timeout_exception import TimeoutException
+import magic
+import chardet
+from bs4.dammit import UnicodeDammit
+import urllib2
 
 
 class WebsiteLanguageExtraction(object):
@@ -40,14 +44,23 @@ class WebsiteLanguageExtraction(object):
                 signal.alarm(10) 
         
                 try:
-                    html = urllib.urlopen(url).read()
-                    utf8_html = unicode(html,"utf8")
-                    markup_text =  html2text.html2text(utf8_html)
+                    html = urllib2.urlopen(url)
+     
+                    encoding = html.headers.getparam('charset')
+                     
+                    if encoding is None:
+                        encoding = chardet.detect(html.read())['encoding']
+                     
+                    encoded_html = unicode(html.read(),encoding , errors='replace')
+     
+                    markup_text =  html2text.html2text(encoded_html)
+
                     html_from_markup = markdown(markup_text)
+
                     text = ''.join(BeautifulSoup(html_from_markup,"lxml").findAll(text=True))
-            
+         
                     language = detect(text)
-            
+         
                     url_language_dictionary[url] = language
         
                 except Exception as exception:
@@ -82,4 +95,4 @@ if __name__ == '__main__':
     website_language_extraction = WebsiteLanguageExtraction()
     url_language_dictionary = website_language_extraction.get_website_languages(json_data)
     json_writer.write_json_file(url_language_dictionary, outputfile_path)
-    
+   

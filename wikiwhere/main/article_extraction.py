@@ -33,6 +33,7 @@ class ArticleExtraction(object):
         
         id_count = 0
         for extracted_url in extracted_urls:
+
             extracted_urls_count += 1
             print "extract URL " + str(extracted_urls_count)+" of "+str(extracted_urls_len)
 
@@ -112,10 +113,6 @@ class ArticleExtraction(object):
 
         return url_feature_dict
                 
-             
-                        
-                 
-        
     def get_as_array(self,url_feature_dict):
         url_feature_array = []
         

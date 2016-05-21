@@ -19,6 +19,7 @@ class WikipediaApiUrlExtraction(object):
         linklist=[]
 
         site = wiki.Wiki("https://"+lang+".wikipedia.org/w/api.php")
+
         #urllib2.quote(title.encode("utf8"))
         #title = title.encode("utf-8")
         params = {'action':'query', 'titles':title, 'prop':'extlinks', 'ellimit':500}
