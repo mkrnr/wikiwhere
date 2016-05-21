@@ -10,19 +10,13 @@ from langdetect import detect
 from bs4 import BeautifulSoup
 
 import json
-import urllib
 import argparse
-import langdetect
 import html2text
 from markdown import markdown
 import signal
-import HTMLParser
-from httplib import InvalidURL
 from wikiwhere.utils import json_writer
 from wikiwhere.utils.timeout_exception import TimeoutException
-import magic
 import chardet
-from bs4.dammit import UnicodeDammit
 import urllib2
 
 
