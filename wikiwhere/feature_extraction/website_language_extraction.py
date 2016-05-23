@@ -57,6 +57,8 @@ class WebsiteLanguageExtraction(object):
          
                     url_language_dictionary[url] = language
         
+                except TimeoutException:
+                    print "timeout for: " + url
                 except Exception as exception:
                     print "Continue after " + exception.__class__.__name__ + " for URL: " + url 
                     continue
