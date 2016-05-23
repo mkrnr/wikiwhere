@@ -18,9 +18,13 @@ from wikiwhere.utils import json_writer
 from wikiwhere.utils.timeout_exception import TimeoutException
 import chardet
 import urllib2
+import socket 
 
 
 class WebsiteLanguageExtraction(object):
+    # timeout in seconds
+    timeout = 10
+    socket.setdefaulttimeout(timeout)
     
     def get_website_languages(self,json_data):
         url_language_dictionary = {}
@@ -33,9 +37,6 @@ class WebsiteLanguageExtraction(object):
         
                 if url in url_language_dictionary:
                     continue
-        
-                # start a timeout counter
-                signal.alarm(10) 
         
                 try:
                     html = urllib2.urlopen(url)
@@ -56,20 +57,14 @@ class WebsiteLanguageExtraction(object):
                     language = detect(text)
          
                     url_language_dictionary[url] = language
-        
-                except TimeoutException:
-                    print "timeout for: " + url
+                except socket.timeout:
+                    print "Continue after timeout for URL: " + url
+                    continue
                 except Exception as exception:
                     print "Continue after " + exception.__class__.__name__ + " for URL: " + url 
                     continue
 
         return url_language_dictionary
-
-    def timeout_handler(self,signum, frame):   # Custom signal handler
-        raise TimeoutException
-    
-    # Change the behavior of SIGALRM
-    signal.signal(signal.SIGALRM, timeout_handler)
 
 if __name__ == '__main__':
     # generate help text for arguments
