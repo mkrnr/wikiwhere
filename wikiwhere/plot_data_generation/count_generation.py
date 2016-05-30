@@ -19,11 +19,12 @@ class CountGeneration(object):
         
         return feature_counts
 
-    def get_as_array(self,feature_counts):
+    def get_as_array(self,feature_counts,max_elements):
         feature_count_array = []
 
         sorted_feature_counts = sorted(feature_counts.items(), key=operator.itemgetter(1),reverse=True)
 
+        element_count = 0
         for feature_count_tuple in sorted_feature_counts:
             dict_for_label = {}
 
@@ -31,5 +32,8 @@ class CountGeneration(object):
             dict_for_label["count"] = feature_count_tuple[1]
         
             feature_count_array.append(dict_for_label)
+            element_count += 1
+            if element_count >= max_elements:
+                break
         
         return feature_count_array
