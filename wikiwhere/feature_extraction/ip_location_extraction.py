@@ -37,8 +37,13 @@ class IPLocationExtraction(object):
                         url_location_dictionary[url] = response.country.iso_code
                 except socket.gaierror:
                     print "URL not found: " + url
+                    continue
                 except geoip2.errors.AddressNotFoundError:
                     print "IP location not found: " + ip
+                    continue
+                except Exception as exception:
+                    print "Continue after " + exception.__class__.__name__ + " for URL: " + url 
+                    continue
 
         return url_location_dictionary
     
